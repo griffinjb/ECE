@@ -86,11 +86,11 @@ def base_angle():
 			if amax[i][0] > 0 and amax[i][1] > 0:
 				atheta[i] = math.degrees(math.atan(abs(float(amax[i][0]))/abs(float(amax[i][1]))))		
 			if amax[i][0] > 0 and amax[i][1] < 0:
-				atheta[i] = math.degrees(math.atan(abs(float(amax[i][0]))/abs(float(amax[i][1]))) + math.pi/2)		
+				atheta[i] = 180 - math.degrees(math.atan(abs(float(amax[i][0]))/abs(float(amax[i][1]))))		
 			if amax[i][0] < 0 and amax[i][1] > 0:
-				atheta[i] = math.degrees(math.atan(abs(float(amax[i][0]))/abs(float(amax[i][1]))) + 3*math.pi/2)		
+				atheta[i] = 360 - math.degrees(math.atan(abs(float(amax[i][0]))/abs(float(amax[i][1]))))		
 			if amax[i][0] < 0 and amax[i][1] < 0:
-				atheta[i] = math.degrees(math.atan(abs(float(amax[i][0]))/abs(float(amax[i][1]))) + math.pi)		
+				atheta[i] = 180 + math.degrees(math.atan(abs(float(amax[i][0]))/abs(float(amax[i][1]))))		
 
 		print(atheta)
 
@@ -108,11 +108,29 @@ def base_angle():
 
 		theta_out = str(atheta[1])
 		NOT_FOUND = "NOT_FOUND"
+		msg_out = NOT_FOUND
+		if in_range(atheta):
+			msg_out = theta_out
 
 
-		rospy.loginfo(theta_out)
-		pub.publish(theta_out)
+		rospy.loginfo(msg_out)
+		pub.publish(msg_out)
 		rate.sleep()
+
+
+def in_range(atheta):
+	tf = False
+	bg = 180 - abs(abs(atheta[0]-atheta[1])-180)
+	br = 180 - abs(abs(atheta[0]-atheta[2])-180)
+	gr = 180 - abs(abs(atheta[1]-atheta[2])-180)
+
+	if bg < 90 and br < 90 and gr < 90:
+		tf = True
+
+	return tf
+
+
+
 
 if __name__ == '__main__':
 	try:
