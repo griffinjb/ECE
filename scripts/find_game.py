@@ -15,10 +15,10 @@ def base_angle():
 	while not rospy.is_shutdown():
 #while True:
 
-		os.system('fswebcam -d /dev/video0 --no-banner -q --png --save /home/josh/catkin_ws/src/locate_hub/scripts/img_in/test.png')	
+		os.system('fswebcam -d /dev/video1 --no-banner -q --png --save /home/josh/catkin_ws/src/locate_hub/scripts/img_in/test.png')	
 
 
-		img = cv2.imread("/home/josh/catkin_ws/src/locate_hub/scripts/img_in/multi.png")
+		img = cv2.imread("/home/josh/catkin_ws/src/locate_hub/scripts/img_in/test.png")
 		#cparse = cv2.imread("cparse.png")
 		
 		square = img[0:240,40:280]
@@ -94,7 +94,22 @@ def base_angle():
 
 		print(atheta)
 
-		theta_out = String(atheta[1])
+		cv2.waitKey(0)
+		cv2.imshow('OG', square)
+		cv2.imshow('Gmod',gmod)
+		cv2.imshow('Rmod',rmod)
+		cv2.imshow('Bmod',bmod)
+		cv2.imshow('Green',gs)
+		cv2.imshow('Red',rs)
+		cv2.imshow('Blue',bs)
+		#cv2.waitKey(0)
+
+
+
+		theta_out = str(atheta[1])
+		NOT_FOUND = "NOT_FOUND"
+
+
 		rospy.loginfo(theta_out)
 		pub.publish(theta_out)
 		rate.sleep()
@@ -106,15 +121,15 @@ if __name__ == '__main__':
 		pass
 
 
-		# cv2.waitKey(0)
-		# cv2.imshow('OG', square)
-		# cv2.imshow('Gmod',gmod)
-		# cv2.imshow('Rmod',rmod)
-		# cv2.imshow('Bmod',bmod)
-		# cv2.imshow('Green',gs)
-		# cv2.imshow('Red',rs)
-		# cv2.imshow('Blue',bs)
-		# cv2.waitKey(0)
+		cv2.waitKey(0)
+		cv2.imshow('OG', square)
+		cv2.imshow('Gmod',gmod)
+		cv2.imshow('Rmod',rmod)
+		cv2.imshow('Bmod',bmod)
+		cv2.imshow('Green',gs)
+		cv2.imshow('Red',rs)
+		cv2.imshow('Blue',bs)
+		cv2.waitKey(0)
 
 
 		# time.sleep(3)
